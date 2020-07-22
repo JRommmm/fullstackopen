@@ -43,11 +43,11 @@ app.post('/api/persons', (request, response) => {
     })
   }
   console.log("2")
-  const person = {
+  const person = new Person({
     name: body.name,
     number: body.number,
     id: 2,
-  }
+  })
   console.log("3")
   person.save().then(savedPerson => {
     response.json(savedPerson)
