@@ -12,8 +12,8 @@ mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
     console.log('error connecting to MongoDB:', error.message)
   })
 
-const noteSchema = new mongoose.Schema({
-  name: String,      //HERE
+const personSchema = new mongoose.Schema({
+  name: String,      
   number: String,
   id: Number,
 })
@@ -29,4 +29,4 @@ noteSchema.set('toJSON', {
 
 */
 
-module.exports = mongoose.model('Person', noteSchema) //HERE
+module.exports = mongoose.model('Person', personSchema) //HERE
