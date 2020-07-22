@@ -35,22 +35,23 @@ app.get('/api/persons', (request, response) => {
 
 app.post('/api/notes', (request, response) => {
   const body = request.body
-
+  console.log("1")
   if (!body.name || !body.number) {
     return response.status(400).json({ 
       error: 'content missing' 
     })
   }
-
+  console.log("2")
   const person = {
     name: body.name,
     number: body.number,
     id: generateId(),
   }
-
+  console.log("3")
   person.save().then(savedPerson => {
     response.json(savedPerson)
   })
+    console.log("4")
 })
 
 //               ||            ||
