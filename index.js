@@ -34,7 +34,7 @@ app.get('/api/persons', (request, response) => {
 })
 
 
-app.post('/api/notes', (request, response) => {
+app.post('/api/persons', (request, response) => {
   const body = request.body
   console.log("1")
   if (!body.name || !body.number) {
