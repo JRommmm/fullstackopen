@@ -1,15 +1,16 @@
+require('dotenv').config()
 const express = require('express')
 const app = express()
+const Person = require('./models/person')
 
 app.use(express.json())
 
 const cors = require('cors')
 
 app.use(cors())
-
 //app.use(express.static('build'))
 
-
+/*
 let persons = [
     {
       "name": "w",
@@ -22,11 +23,16 @@ let persons = [
       "id": 5
     }
 ]
+*/
 
-
-app.get('/api/persons', (req, res) => {
-  res.json(persons)
+app.get('/api/persons', (request, response) => {
+  Person.find({}).then(people => {
+    response.json(people)
+  })
 })
+
+//               ||            ||
+//---------------VV  OLD CODE  VV-----------------
 
 app.get('/', (req, res) => {
   res.send('<h1>Hello World!</h1>')
@@ -79,7 +85,7 @@ app.post('/api/persons', (request, response) => {
   response.json(person)
 })
 
-const PORT = process.env.PORT || 3001
+const PORT = process.env.PORT
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })
