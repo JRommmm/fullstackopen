@@ -27,6 +27,7 @@ let persons = [
 */
 
 app.get('/api/persons', (request, response) => {
+  console.log("0")
   Person.find({}).then(people => {
     response.json(people)
   })
