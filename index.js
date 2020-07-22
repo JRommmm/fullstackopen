@@ -32,6 +32,27 @@ app.get('/api/persons', (request, response) => {
   })
 })
 
+
+app.post('/api/notes', (request, response) => {
+  const body = request.body
+
+  if (!body.name || !body.number) {
+    return response.status(400).json({ 
+      error: 'content missing' 
+    })
+  }
+
+  const person = {
+    name: body.name,
+    number: body.number,
+    id: generateId(),
+  }
+
+  person.save().then(savedPerson => {
+    response.json(savedPerson)
+  })
+})
+
 //               ||            ||
 //---------------VV  OLD CODE  VV-----------------
 
@@ -65,26 +86,7 @@ const generateId = () => {
   return maxId + 1
 }
 
-app.post('/api/persons', (request, response) => {
-  const body = request.body
 
-  if (!body.content) {
-    return response.status(400).json({ 
-      error: 'content missing' 
-    })
-  }
-  //Below init is wrong, variables are: name, number id (person)
-  const person = {
-    content: body.content,
-    important: body.important || false,
-    date: new Date(),
-    id: generateId(),
-  }
-
-  persons = persons.concat(person)
-
-  response.json(person)
-})
 
 const PORT = process.env.PORT
 app.listen(PORT, () => {
