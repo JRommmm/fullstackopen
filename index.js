@@ -46,7 +46,7 @@ app.post('/api/persons', (request, response) => {
   const person = new Person({
     name: body.name,
     number: body.number,
-    id: generateId(),
+    //id: generateId(),
   })
   //console.log("3")
   person.save().then(savedPerson => {
