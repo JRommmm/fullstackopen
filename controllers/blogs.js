@@ -1,17 +1,46 @@
 const blogsRouter = require('express').Router()
 const Blog = require('../models/blog')
+const User = require('../models/user')
 
-blogsRouter.get('/', (request, response) => {
+blogsRouter.get('/', async (request, response) => {
+  const blogs = await Blog
+    .find({}).populate('user', { username: 1, name: 1 })
+
+  response.json(blogs)
+
+/*
   Blog
     .find({})
     .then(blogs => {
       response.json(blogs)
     })
+    */
 })
 
-blogsRouter.post('/', (request, response) => {
+blogsRouter.post('/', async (request, response) => {
   
   //console.log('inside post')
+
+  const body = request.body
+
+  const user = await User.findById(body.userId)
+
+  const blog = new Blog({
+    title: body.title,
+    author: body.author,
+    url: body.url,
+    likes: body.likes,
+    user: user._id
+  })
+
+  //Here is where "POST" both saves to the blog, and to user
+  const savedBlog = await blog.save()
+  user.blogs = user.blogs.concat(savedBlog._id)
+  await user.save()
+  
+  response.json(savedBlog)
+//    VV---   OLD implementation  ---VV
+  /*
   const blog = new Blog(request.body)
 
   blog
@@ -19,6 +48,7 @@ blogsRouter.post('/', (request, response) => {
     .then(result => {
       response.status(201).json(result)
     })
+  */
 })
 
 blogsRouter.delete('/:id', async (request, response, next) => {
